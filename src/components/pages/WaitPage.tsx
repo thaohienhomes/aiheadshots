@@ -38,7 +38,6 @@ export function WaitPage({ navigate, uploadData }: WaitPageProps) {
 
   const { getGenerationById } = useGenerations();
   const generation = uploadData?.generation;
-  const [isComplete, setIsComplete] = useState(false);
 
   const totalDuration = processingSteps.reduce((sum, step) => sum + step.duration, 0);
   const estimatedTime = Math.ceil(totalDuration / 60); // in minutes
