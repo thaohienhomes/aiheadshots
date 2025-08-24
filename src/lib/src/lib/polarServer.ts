@@ -1,5 +1,5 @@
 import { Polar } from '@polar-sh/sdk';
-import { supabase } from './supabaseClient';
+import { supabaseServer as supabase } from './supabaseServer';
 import type { SubscriptionTier } from '../types/limits';
 
 const polar = new Polar({
