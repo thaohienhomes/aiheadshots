@@ -4,8 +4,8 @@ import { supabaseServer as supabase } from './supabaseServer';
 import type { Generation } from '../types/supabase';
 
 // RunPod API configuration
-const RUNPOD_API_KEY = import.meta.env.VITE_RUNPOD_API_KEY!;
-const RUNPOD_ENDPOINT_ID = import.meta.env.VITE_RUNPOD_ENDPOINT_ID!;
+const RUNPOD_API_KEY = process.env.RUNPOD_API_KEY!;
+const RUNPOD_ENDPOINT_ID = process.env.RUNPOD_ENDPOINT_ID!;
 const RUNPOD_BASE_URL = 'https://api.runpod.ai/v2';
 
 interface RunPodJobPayload {

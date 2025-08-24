@@ -1,12 +1,12 @@
-// src/lib/replicate.ts
-
 import Replicate from 'replicate';
-import { supabase } from './supabaseClient';
+// ✅ SỬA LẠI DÒNG NÀY
+import { supabaseServer as supabase } from './supabaseServer';
 import type { Generation } from '../types/supabase';
 
 // Initialize Replicate client
+// ✅ SỬA LẠI DÒNG NÀY
 const replicate = new Replicate({
-  auth: import.meta.env.VITE_REPLICATE_API_TOKEN!,
+  auth: process.env.REPLICATE_API_TOKEN!,
 });
 
 // Replicate model for SDXL
