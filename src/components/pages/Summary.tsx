@@ -42,6 +42,7 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
   const { upgradeToTier, currentTier } = useSubscription();
   const { checkCanGenerate, stats, shouldUpgrade } = useUsage();
 
+  // ✅ Giữ lại hàm async handleStartProcessing
   const handleStartProcessing = async () => {
     if (!user || !images.length) {
       setError('Missing user or images');
@@ -76,7 +77,9 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
           ethnicity: personalInfo.ethnicity,
           hairColor: personalInfo.hairColor,
           eyeColor: personalInfo.eyeColor,
-          preferences: Object.keys(personalInfo.preferences || {}).filter(key => personalInfo.preferences[key])
+          preferences: Object.keys(personalInfo.preferences || {}).filter(
+            (key) => personalInfo.preferences[key]
+          )
         },
         uploadUrl: primaryImage.url,
         webhookUrl: `${window.location.origin}/api/runpod-webhook`
@@ -117,10 +120,6 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
   const tax = Math.round(subtotal * 0.08); // 8% tax
   const total = subtotal + tax;
 
-  const handleStartProcessing = () => {
-    navigate('wait');
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-4 py-8 pt-24 max-w-6xl">
@@ -144,7 +143,6 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Order Details */}
           <div className="lg:col-span-2 space-y-8">
-            
             {/* Uploaded Images */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -162,7 +160,7 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
                       {images.length} photos uploaded
                     </Badge>
                   </div>
-                  
+
                   <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
                     {images.slice(0, 12).map((image: any, index: number) => (
                       <motion.div
@@ -203,7 +201,7 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
                     </div>
                     <h2 className="text-xl font-bold text-white">Personal Information</h2>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-3">
                       <div>
@@ -252,7 +250,7 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
                     </div>
                     <h2 className="text-xl font-bold text-white">Style Selections</h2>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-4 bg-slate-700/30 rounded-lg">
                       <div>
@@ -327,7 +325,9 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
               isLoading={isGenerating}
               error={error}
               showUpgradePrompt={shouldUpgrade || (error?.includes('limit') ?? false)}
-              onUpgrade={() => upgradeToTier(stats.recommendedTier === 'enterprise' ? 'enterprise' : 'pro')}
+              onUpgrade={() =>
+                upgradeToTier(stats.recommendedTier === 'enterprise' ? 'enterprise' : 'pro')
+              }
             />
           </motion.div>
         </div>
@@ -347,31 +347,33 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
             <ArrowLeft className="mr-2 h-5 w-5" />
             Back to Style Selection
           </Button>
-          
+
           <div className="text-center">
             <div className="flex items-center gap-2 justify-center mb-2">
               {[1, 2, 3, 4, 5].map((step, index) => (
                 <div key={step} className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    index === 4 
-                      ? 'bg-cyan-500 text-white' 
-                      : index < 4
-                      ? 'bg-green-500 text-white'
-                      : 'bg-slate-700 text-slate-400'
-                  }`}>
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                      index === 4
+                        ? 'bg-cyan-500 text-white'
+                        : index < 4
+                        ? 'bg-green-500 text-white'
+                        : 'bg-slate-700 text-slate-400'
+                    }`}
+                  >
                     {index < 4 ? <CheckCircle className="h-4 w-4" /> : step}
                   </div>
                   {index < 4 && (
-                    <div className={`w-8 h-px mx-2 ${
-                      index < 4 ? 'bg-green-500' : 'bg-slate-600'
-                    }`}></div>
+                    <div
+                      className={`w-8 h-px mx-2 ${
+                        index < 4 ? 'bg-green-500' : 'bg-slate-600'
+                      }`}
+                    ></div>
                   )}
                 </div>
               ))}
             </div>
-            <div className="text-sm text-slate-400">
-              Step 5 of 5: Order Review
-            </div>
+            <div className="text-sm text-slate-400">Step 5 of 5: Order Review</div>
           </div>
         </motion.div>
       </div>
