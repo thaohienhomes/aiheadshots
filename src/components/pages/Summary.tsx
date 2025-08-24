@@ -17,8 +17,6 @@ import { PageType } from '../../App';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { backgroundStyles, clothingStyles, aiModels } from './constants/summaryData';
 import { OrderSummaryCard } from './components/OrderSummaryCard';
-// ❌ XOÁ DÒNG NÀY - KHÔNG IMPORT HÀM SERVER
-// import { createAIGeneration } from '../../lib/aiOrchestrator';
 import { useAuth } from '../../hooks/useAuth';
 import { useSubscription } from '../../hooks/useSubscription';
 import { useUsage } from '../../hooks/useUsage';
@@ -38,7 +36,7 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
   const { upgradeToTier } = useSubscription();
   const { checkCanGenerate, stats, shouldUpgrade } = useUsage();
 
-  // ✅ SỬA LẠI HÀM NÀY ĐỂ GỌI API
+  // ✅ HÀM ĐÃ ĐƯỢC SỬA LẠI ĐỂ GỌI API
   const handleStartProcessing = async () => {
     if (!user || !images.length) {
       setError('Missing user or images');
@@ -59,7 +57,7 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
 
       const primaryImage = images[0];
 
-      // ✅ GỌI API ENDPOINT, KHÔNG GỌI HÀM TRỰC TIẾP
+      // ✅ GỌI API ENDPOINT, KHÔNG GỌI HÀM SERVER TRỰC TIẾP
       const response = await fetch('/api/create-generation', {
         method: 'POST',
         headers: {
