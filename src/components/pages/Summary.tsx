@@ -37,7 +37,7 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
   const { upgradeToTier } = useSubscription();
   const { checkCanGenerate, stats, shouldUpgrade } = useUsage();
 
-  // ✅ Hàm xử lý chính
+  // ✅ Hàm xử lý chính, chỉ có một bản duy nhất
   const handleStartProcessing = async () => {
     if (!user || !images.length) {
       setError('Missing user or images');
