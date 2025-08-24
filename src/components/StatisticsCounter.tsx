@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, useInView } from 'motion/react';
+import { motion, useInView } from 'framer-motion';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
 import { Users, Camera, Star, Clock, TrendingUp, Globe, Award, Zap } from 'lucide-react';

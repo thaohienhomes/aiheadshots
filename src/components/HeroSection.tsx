@@ -1,7 +1,7 @@
 import image_3c24e0a4b4a8cd1736f7bc8bf029ed943f4f83d6 from 'figma:asset/3c24e0a4b4a8cd1736f7bc8bf029ed943f4f83d6.png';
 import image_825c4a2fd790ef92a0a68c3e85d0fdf54124dd01 from 'figma:asset/825c4a2fd790ef92a0a68c3e85d0fdf54124dd01.png';
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { ImageWithFallback } from './figma/ImageWithFallback';

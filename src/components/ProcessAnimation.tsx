@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Card } from './ui/card';
 import { Upload, Brain, Sparkles, Download, ArrowRight, Zap } from 'lucide-react';
 
