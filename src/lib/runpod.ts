@@ -1,6 +1,6 @@
 // src/lib/runpod.ts
 
-import { supabase } from './supabaseClient';
+import { supabaseServer as supabase } from './supabaseServer';
 import type { Generation } from '../types/supabase';
 
 // RunPod API configuration
