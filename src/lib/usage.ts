@@ -76,7 +76,7 @@ export async function getCurrentUsage(
 
   try {
     // Fetch current usage record
-    const { data: usage, error } = await supabase
+    const { data: usage } = await supabase
       .from('usage_limits')
       .select('*')
       .eq('user_id', userId)
@@ -270,7 +270,7 @@ export async function getAllUserUsage(userId: string): Promise<UsageLimit[]> {
 }
 
 export function formatUsageMessage(usage: UsageCheck): string {
-  const { used, limit, remaining, tier, resetDate } = usage;
+  const { limit, remaining, resetDate } = usage;
   
   if (remaining === 0) {
     if (resetDate) {

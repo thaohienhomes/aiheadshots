@@ -1,7 +1,7 @@
 // src/lib/credits.ts
 
 import { supabase } from './supabaseClient';
-import type { Profile, CreditsTransaction } from '../types/supabase';
+import type { CreditsTransaction } from '../types/supabase';
 
 export interface CreditsCheck {
   hasCredits: boolean;

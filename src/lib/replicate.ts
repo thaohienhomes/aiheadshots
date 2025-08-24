@@ -162,7 +162,7 @@ export async function checkReplicateStatus(jobId: string): Promise<ReplicateJob 
       id: prediction.id,
       status: prediction.status as ReplicateJob['status'],
       output: prediction.output,
-      error: prediction.error,
+      error: prediction.error as string | undefined,
     };
   } catch (error) {
     console.error('Failed to check Replicate status:', error);
