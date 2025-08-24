@@ -3,20 +3,15 @@ import { motion } from 'motion/react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { Separator } from '../ui/separator';
 import {
   ArrowLeft,
   CheckCircle,
   Camera,
   User,
   Palette,
-  CreditCard,
   Zap,
   Crown,
-  Clock,
   Star,
-  Shield,
-  Loader2
 } from 'lucide-react';
 import { PageType } from '../../App';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
@@ -39,10 +34,10 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
   const [error, setError] = useState<string | null>(null);
 
   const { user } = useAuth();
-  const { upgradeToTier, currentTier } = useSubscription();
+  const { upgradeToTier } = useSubscription();
   const { checkCanGenerate, stats, shouldUpgrade } = useUsage();
 
-  // ✅ Giữ lại hàm async handleStartProcessing
+  // ✅ Hàm xử lý chính, giữ lại
   const handleStartProcessing = async () => {
     if (!user || !images.length) {
       setError('Missing user or images');
@@ -65,10 +60,10 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
       // Use the first uploaded image for generation
       const primaryImage = images[0];
 
-      // Create AI generation job (usage will be consumed in aiOrchestrator)
+      // Create AI generation job
       const result = await createAIGeneration({
         userId: user.id,
-        uploadId: primaryImage.id, // Using image ID as upload ID for now
+        uploadId: primaryImage.id,
         model: styleSelection.aiModel || 'sdxl',
         style: `${styleSelection.background || 'professional'}, ${styleSelection.clothing || 'business attire'}`,
         personalInfo: {
@@ -79,14 +74,13 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
           eyeColor: personalInfo.eyeColor,
           preferences: Object.keys(personalInfo.preferences || {}).filter(
             (key) => personalInfo.preferences[key]
-          )
+          ),
         },
         uploadUrl: primaryImage.url,
-        webhookUrl: `${window.location.origin}/api/runpod-webhook`
+        webhookUrl: `${window.location.origin}/api/runpod-webhook`,
       });
 
       if (result.success && result.generation) {
-        // Save generation info to upload data
         updateUploadData('generation', result.generation);
         updateUploadData('currentStep', 4);
         navigate('wait');
