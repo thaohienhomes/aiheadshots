@@ -17,7 +17,8 @@ import { PageType } from '../../App';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { backgroundStyles, clothingStyles, aiModels } from './constants/summaryData';
 import { OrderSummaryCard } from './components/OrderSummaryCard';
-import { createAIGeneration } from '../../lib/aiOrchestrator';
+// ❌ XOÁ DÒNG NÀY - KHÔNG IMPORT HÀM SERVER
+// import { createAIGeneration } from '../../lib/aiOrchestrator';
 import { useAuth } from '../../hooks/useAuth';
 import { useSubscription } from '../../hooks/useSubscription';
 import { useUsage } from '../../hooks/useUsage';
@@ -37,7 +38,7 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
   const { upgradeToTier } = useSubscription();
   const { checkCanGenerate, stats, shouldUpgrade } = useUsage();
 
-  // ✅ Hàm xử lý chính, chỉ có một bản duy nhất
+  // ✅ SỬA LẠI HÀM NÀY ĐỂ GỌI API
   const handleStartProcessing = async () => {
     if (!user || !images.length) {
       setError('Missing user or images');
@@ -48,7 +49,6 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
     setError(null);
 
     try {
-      // Check generation limits first
       const { canGenerate, message } = await checkCanGenerate();
 
       if (!canGenerate) {
@@ -57,30 +57,36 @@ export function Summary({ navigate, uploadData, updateUploadData }: SummaryProps
         return;
       }
 
-      // Use the first uploaded image for generation
       const primaryImage = images[0];
 
-      // Create AI generation job
-      const result = await createAIGeneration({
-        userId: user.id,
-        uploadId: primaryImage.id,
-        model: styleSelection.aiModel || 'sdxl',
-        style: `${styleSelection.background || 'professional'}, ${styleSelection.clothing || 'business attire'}`,
-        personalInfo: {
-          age: personalInfo.age,
-          gender: personalInfo.gender,
-          ethnicity: personalInfo.ethnicity,
-          hairColor: personalInfo.hairColor,
-          eyeColor: personalInfo.eyeColor,
-          preferences: Object.keys(personalInfo.preferences || {}).filter(
-            (key) => personalInfo.preferences[key]
-          ),
+      // ✅ GỌI API ENDPOINT, KHÔNG GỌI HÀM TRỰC TIẾP
+      const response = await fetch('/api/create-generation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        uploadUrl: primaryImage.url,
-        webhookUrl: `${window.location.origin}/api/runpod-webhook`,
+        body: JSON.stringify({
+          userId: user.id,
+          uploadId: primaryImage.id,
+          model: styleSelection.aiModel || 'sdxl',
+          style: `${styleSelection.background || 'professional'}, ${styleSelection.clothing || 'business attire'}`,
+          personalInfo: {
+            age: personalInfo.age,
+            gender: personalInfo.gender,
+            ethnicity: personalInfo.ethnicity,
+            hairColor: personalInfo.hairColor,
+            eyeColor: personalInfo.eyeColor,
+            preferences: Object.keys(personalInfo.preferences || {}).filter(
+              (key) => personalInfo.preferences[key]
+            ),
+          },
+          uploadUrl: primaryImage.url,
+        }),
       });
 
-      if (result.success && result.generation) {
+      const result = await response.json();
+
+      if (response.ok && result.success && result.generation) {
         updateUploadData('generation', result.generation);
         updateUploadData('currentStep', 4);
         navigate('wait');
