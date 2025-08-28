@@ -130,43 +130,33 @@ export default function App() {
       default:
         return (
           <main className="relative">
-            {/* Hero Section with Video Background */}
             <section id="hero" className="hero-mobile">
               <HeroSection navigate={navigate} openLoginModal={openLoginModal} />
             </section>
-            {/* Interactive Gallery with Masonry Layout */}
             <section id="gallery" className="section-spacing">
               <InteractiveGallery />
             </section>
-            {/* Video Testimonials */}
             <section id="testimonials" className="section-spacing">
               <VideoTestimonials />
             </section>
-            {/* Process Animation (How It Works) */}
             <section id="process" className="section-spacing">
               <ProcessAnimation />
             </section>
-            {/* Dashboard Teaser - Show mock dashboard */}
             <section id="dashboard-teaser" className="section-spacing">
               <DashboardTeaser />
             </section>
-            {/* Statistics Counter */}
             <section id="statistics" className="section-spacing">
               <StatisticsCounter />
             </section>
-            {/* Pricing Section - New addition */}
             <section id="pricing" className="section-spacing cta-section">
               <PricingSection />
             </section>
-            {/* 3D Carousel Showcase */}
             <section id="showcase" className="section-spacing">
               <CarouselShowcase />
             </section>
-            {/* AI Models Showcase */}
             <section id="models" className="section-spacing">
               <AIModelsShowcase />
             </section>
-            {/* FAQ Section - New addition */}
             <section id="faq" className="section-spacing">
               <FAQSEction />
             </section>
@@ -176,9 +166,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-hr-screen bg-slate-900 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
       <Navigation 
-        currentPage={currentPage} 
+        currentPage={currentPage}  
         navigate={navigate}  
         openLoginModal={openLoginModal}
      />
