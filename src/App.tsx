@@ -108,7 +108,7 @@ export default function App() {
   };
 
   const updateUploadData = (key: string, data: any) => {
-    setUploadData(prev => ({ ..prev,, [key]: data }));
+    setUploadData(prev => ({ ...prev, [key]: data }));
   };
 
   const renderPage = () => {
