@@ -1,0 +1,22 @@
+name: prod-smoke
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping production URL
+        run: |
+          if [ -z "${{ secrets.PROD_URL }}" ]; then
+            echo "PROD_URL secret is not set" >&2
+            exit 1
+          fi
+          echo "Checking ${{ secrets.PROD_URL }}"
+          code=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.PROD_URL }}")
+          echo "HTTP $code"
+          if [ "$code" -ge 400 ]; then
+            exit 1
+          fi
+
