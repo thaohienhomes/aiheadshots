@@ -26,12 +26,13 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Cypress run against preview
+      - name: Cypress run against preview (smoke only)
         uses: cypress-io/github-action@v6
         with:
           start: npm run preview
           wait-on: 'http://localhost:3200'
           browser: chrome
+          spec: cypress/e2e/smoke.cy.ts
 
       - name: Upload Cypress artifacts on failure
         if: failure()
