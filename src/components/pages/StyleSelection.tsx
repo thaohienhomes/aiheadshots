@@ -11,18 +11,12 @@ import {
   Palette,
   Camera
 } from 'lucide-react';
-import { PageType } from '../../App';
+
 import { backgroundStyles, clothingStyles, aiModels } from './constants/styleData';
 import { AIModelCard } from './components/AIModelCard';
 import { StyleOptionCard } from './components/StyleOptionCard';
 
-interface StyleSelectionProps {
-  navigate: (page: PageType) => void;
-  uploadData: any;
-  updateUploadData: (key: string, data: any) => void;
-}
-
-export function StyleSelection({ navigate, uploadData, updateUploadData }: StyleSelectionProps) {
+  export function StyleSelection({ navigate, uploadData, updateUploadData }) {
   const [selectedBackground, setSelectedBackground] = useState<string>('');
   const [selectedClothing, setSelectedClothing] = useState<string>('');
   const [selectedModel, setSelectedModel] = useState<string>(() => {
