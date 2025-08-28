@@ -1,0 +1,24 @@
+name: prod-smoke
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PROD_URL secret
+        run: |
+          if [ -z "${{ secrets.PROD_URL }}" ]; then
+            echo "PROD_URL secret is not set!"
+            exit 1
+          fi
+
+      - name: Ping Production URL
+        run: |
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.PROD_URL }}")
+          echo "HTTP status code: $STATUS_CODE"
+          if [ "$STATUS_CODE" -ge 400 ]; then
+            echo "Site returned HTTP $STATUS_CODE, marking as failed!"
+            exit 1
+          fi
