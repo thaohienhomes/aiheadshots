@@ -2,13 +2,7 @@ name: e2e
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
-      - chore/**
-      - feat/**
-      - test/**
-      - ci/**
+ 
 
 jobs:
   e2e:
