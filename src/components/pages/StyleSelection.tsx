@@ -1,4 +1,4 @@
-<FILE_CONTENT_OMITTED_FOR_BREVITY>import { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
@@ -11,15 +11,15 @@ import {
   Palette,
   Camera
 } from 'lucide-react';
-
 import { backgroundStyles, clothingStyles, aiModels } from './constants/styleData';
 import { AIModelCard } from './components/AIModelCard';
 import { StyleOptionCard } from './components/StyleOptionCard';
 
-  export function StyleSelection({ navigate, uploadData, updateUploadData }) {
-  const [selectedBackground, setSelectedBackground] = useState<string>('');
-  const [selectedClothing, setSelectedClothing] = useState<string>('');
-  const [selectedModel, setSelectedModel] = useState<string>(() => {
+
+export function StyleSelection({ navigate, uploadData, updateUploadData }) {
+const [selectedBackground, setSelectedBackground] = useState('');
+const [selectedClothing, setSelectedClothing] = useState('');
+const [selectedModel, setSelectedModel] = useState(() => {
     try {
       const v = localStorage.getItem('preferredModel');
       if (v) {
@@ -33,7 +33,7 @@ import { StyleOptionCard } from './components/StyleOptionCard';
     }
   });
 
-  const handleStyleSelect = (styleId: string, category: 'background' | 'clothing') => {
+  const handleStyleSelect = (styleId, category) => {
     if (category === 'background') {
       setSelectedBackground(styleId);
     } else {
