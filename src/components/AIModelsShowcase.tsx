@@ -1,4 +1,4 @@
-<FILE_REGENERATED_FROM_WORKDIR>import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
@@ -20,28 +20,8 @@ import {
   Eye
 } from 'lucide-react';
 
-interface AIModel {
-  id: string;
-  name: string;
-  version: string;
-  icon: React.ReactNode;
-  description: string;
-  features: string[];
-  strengths: string[];
-  processingTime: string;
-  accuracy: number;
-  popularity: number;
-  sampleImages: string[];
-  gradient: string;
-  borderColor: string;
-  specialties: string[];
-  pricing: {
-    credits: number;
-    description: string;
-  };
-}
 
-const aiModels: AIModel[] = [
+const aiModels = [
   {
     id: 'flux-pro-ultra',
     name: 'Flux Pro Ultra',
@@ -117,16 +97,16 @@ const aiModels: AIModel[] = [
 ];
 
 // Build a srcSet for square images by adjusting Unsplash w/h params
-const buildSrcSetSquare = (url: string, sizes: number[]) =>
+const buildSrcSetSquare = (url, sizes) =>
   sizes
     .map((s) => `${url.replace('w=300', `w=${s}`).replace('h=300', `h=${s}`)} ${s}w`)
     .join(', ');
 
 
 export function AIModelsShowcase() {
-  const [selectedModel, setSelectedModel] = useState<string>(aiModels[0].id);
-  const [activeComparison, setActiveComparison] = useState<boolean>(false);
-  const [previewIndex, setPreviewIndex] = useState<{ [key: string]: number }>({});
+  const [selectedModel, setSelectedModel] = useState(aiModels[0].id);
+  const [activeComparison, setActiveComparison] = useState(false);
+  const [previewIndex, setPreviewIndex] = useState({});
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Prefetch neighbor images when dialog opens or index/model changes
@@ -142,7 +122,7 @@ export function AIModelsShowcase() {
       try {
         const img = new Image();
         img.decoding = 'async';
-        img.loading = 'eager' as any;
+        img.loading = 'eager';
         img.src = url.replace('w=300', 'w=480').replace('h=300', 'h=480');
       } catch {}
     });
@@ -150,7 +130,7 @@ export function AIModelsShowcase() {
 
   const currentModel = aiModels.find(model => model.id === selectedModel) || aiModels[0];
 
-  const nextPreview = (modelId: string) => {
+  const nextPreview = (modelId) => {
     const model = aiModels.find(m => m.id === modelId);
     if (!model) return;
 
@@ -164,12 +144,12 @@ export function AIModelsShowcase() {
     try {
       if (typeof window !== 'undefined') {
         localStorage.setItem('preferredModel', currentModel.id);
-        (window as any).appNavigate?.('upload-intro');
+        if (window && typeof window['appNavigate'] === 'function') { window['appNavigate']('upload-intro'); }
       }
     } catch {}
   };
 
-  const handleTabKey = (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+  const handleTabKey = (e, index) => {
     const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
     if (!dir) return;
     e.preventDefault();
@@ -212,13 +192,13 @@ export function AIModelsShowcase() {
               key={model.id}
               data-testid={`model-tab-${model.id}`}
               onClick={() => { setSelectedModel(model.id); analytics.track('model_tab_change', { modelId: model.id }); }}
-              onKeyDown={(e: React.KeyboardEvent<HTMLButtonElement>) => handleTabKey(e, idx)}
+              onKeyDown={(e) => handleTabKey(e, idx)}
               variant={selectedModel === model.id ? "default" : "outline"}
               role="tab"
               aria-selected={selectedModel === model.id}
               aria-controls={`panel-${model.id}`}
               id={`tab-${model.id}`}
-              aria-pressed={undefined as any}
+              
               className={`px-6 py-4 rounded-xl transition-all duration-300 ${
                 selectedModel === model.id
                   ? `bg-gradient-to-r ${model.gradient} text-white shadow-lg`
@@ -389,8 +369,8 @@ export function AIModelsShowcase() {
                         <Play className="w-6 h-6 text-white" />
                       </div>
               {/* Zoom Dialog */}
-              <Dialog open={isDialogOpen} onOpenChange={(open: boolean) => { if (!open) analytics.track('zoom_close', { modelId: currentModel.id, sampleIndex: (previewIndex[currentModel.id] || 0) }); setIsDialogOpen(open); }}>
-                <DialogContent data-testid="sample-zoom-dialog" className="bg-slate-900 border-slate-700" onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+              <Dialog open={isDialogOpen} onOpenChange={(open) => { if (!open) analytics.track('zoom_close', { modelId: currentModel.id, sampleIndex: (previewIndex[currentModel.id] || 0) }); setIsDialogOpen(open); }}>
+                <DialogContent data-testid="sample-zoom-dialog" className="bg-slate-900 border-slate-700" onKeyDown={(e) => {
                   if (e.key === 'ArrowLeft') {
                     const idx = (previewIndex[currentModel.id] || 0);
                     const prevIdx = (idx - 1 + currentModel.sampleImages.length) % currentModel.sampleImages.length;
