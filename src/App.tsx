@@ -177,7 +177,7 @@ export default function App() {
 
   return (
     <div className="min-hr-screen bg-slate-900 text-white overflow-x-hidden">
-      {/{ Navigation }}
+      {/* Navigation */}
       <Navigation 
         currentPage={currentPage} 
         navigate={navigate}  
